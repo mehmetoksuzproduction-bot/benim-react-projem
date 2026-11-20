@@ -4,6 +4,7 @@
   --sand: #f6f0e8;
   --sand-deep: #ebe2d5;
   --taupe: #c4bcb9;
+  --cream: #faf7f2; /* ürün fotoğraflarının zemin tonu */
   --paper: var(--sand);
   --muted: #777777;
   --line: #e7e3db;
@@ -363,13 +364,14 @@ img { max-width: 100%; }
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
 }
 .collection-card { text-decoration: none; }
 .collection-image { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #f2f2ef; }
-.collection-meta { display: flex; align-items: center; justify-content: space-between; }
-.collection-card h3 { margin: 20px 0 6px; font-family: var(--serif); font-size: 24px; font-weight: 400; }
+/* Altı kart dar olduğu için "Keşfet" her kartta başlığın altında durur (hepsi aynı görünsün) */
+.collection-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.collection-card h3 { margin: 20px 0 6px; font-family: var(--serif); font-size: clamp(19px, 1.5vw, 22px); font-weight: 400; }
 .collection-meta > span { border-bottom: 1px solid var(--ink); font-size: 11px; font-weight: 600; letter-spacing: 1px; }
 
 .collection-image img,
@@ -433,6 +435,7 @@ img { max-width: 100%; }
   --rail-gap: 16px;
   --rail-pad: 48px;
   padding: 96px 0;
+  background: var(--sand);
 }
 .rail-title { margin: 0 0 32px; padding: 0 var(--rail-pad); font-size: clamp(28px, 3vw, 42px); font-weight: 600; letter-spacing: .5px; line-height: 1.1; text-transform: uppercase; }
 .rail-track {
@@ -452,7 +455,7 @@ img { max-width: 100%; }
   /* N tam kart + N boşluk + yarım kart = görünen genişlik */
   flex: 0 0 calc((100% - var(--rail-full) * var(--rail-gap)) / (var(--rail-full) + .5));
   scroll-snap-align: start;
-  background: #f3f3f3; /* ürün fotoğraflarının zemin tonuyla aynı */
+  background: var(--cream); /* ürün fotoğraflarının zemin tonuyla aynı */
 }
 .rail-image { display: block; aspect-ratio: 3 / 4; overflow: hidden; }
 .rail-image img { width: 100%; height: 100%; display: block; object-fit: cover; transition: opacity .9s ease, transform .6s ease; }
@@ -671,7 +674,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .promo-caption { left: 28px; right: 28px; bottom: 32px; }
   .promo-caption h3 { font-size: 26px; }
   .promo-link { margin-top: 18px; font-size: 13px; }
-  .collection-grid { gap: 14px; }
+  .collection-grid { grid-template-columns: repeat(3, 1fr); gap: 32px 14px; }
   .collection-card h3 { font-size: 19px; }
   .collection-meta { flex-direction: column; align-items: flex-start; }
   .collection-meta > span { margin-top: 4px; }

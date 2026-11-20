@@ -3,13 +3,21 @@ export const categories = [
   { slug: 'kolyeler', name: 'Kolyeler', image: '/jewelry/categories/kolyeler.jpg' },
   { slug: 'kupeler', name: 'Küpeler', image: '/jewelry/categories/kupeler.jpg' },
   { slug: 'bileklikler', name: 'Bileklikler', image: '/jewelry/categories/bileklikler.jpg' },
-  // seasonal: mücevher değil; Mücevher menüsünde ve üst menüde görünmez, Hediyeler panelinde yer alır.
+  // seasonal: mücevher olmayan kategori (yılbaşı süsü, hediye kutusu); Mücevher menüsünde ve üst menüde görünmez,
+  // Hediyeler panelinde yer alır. Hediyeler panelinin ilk görselli kutusu, listedeki ilk seasonal kategoridir.
   {
     slug: 'yilbasi-susleri',
     name: 'Yılbaşı Süsleri',
     image: '/jewelry/categories/yilbasi-susleri.jpg',
     seasonal: true,
     emptyMessage: 'Yılbaşı seçkimiz çok yakında burada.',
+  },
+  {
+    slug: 'hediye-kutulari',
+    name: 'Hediye Kutuları',
+    image: '/jewelry/categories/hediye-kutulari.jpg',
+    seasonal: true,
+    emptyMessage: 'Hediye kutusu seçkimiz çok yakında burada.',
   },
 ]
 
