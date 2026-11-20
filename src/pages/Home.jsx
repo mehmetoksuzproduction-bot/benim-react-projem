@@ -68,11 +68,8 @@ export default function Home() {
     <>
       <HeroVideo />
 
-      <section className="section collections-section">
-        <div className="section-heading">
-          <h2>Size özel bir ışıltı</h2>
-        </div>
-        {/* Kategoriler küçük kare fotoğraflar halinde: bilgisayarda 6'lı sıra, telefonda 3+3. */}
+      <section className="section collections-section" aria-label="Kategoriler">
+        {/* Kategoriler kare fotoğraflar halinde: bilgisayarda 6'lı sıra, telefonda 3+3 (ekran genişliğini doldurur). */}
         <div className="collection-grid">
           {categories.map((category) => (
             <Link className="collection-card" to={`/koleksiyon/${category.slug}`} key={category.slug}>

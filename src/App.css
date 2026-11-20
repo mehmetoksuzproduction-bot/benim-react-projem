@@ -395,18 +395,17 @@ img { max-width: 100%; }
 }
 .hero-button:hover { background: #ececea; }
 
-/* "Size özel bir ışıltı": ince bölüm, küçük kare kategori fotoğrafları */
+/* Kategori bölümü (ana sayfa, videonun altı): başlıksız ince bölüm, kare kategori fotoğrafları */
 .collections-section { padding-top: 64px; padding-bottom: 64px; }
-.collections-section .section-heading { margin-bottom: 36px; }
 .collection-grid {
-  max-width: 1200px;
+  max-width: 1344px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 24px;
 }
 .collection-card { display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-.collection-image { position: relative; width: min(176px, 100%); aspect-ratio: 1 / 1; overflow: hidden; background: #f2f2ef; }
+.collection-image { position: relative; width: min(204px, 100%); aspect-ratio: 1 / 1; overflow: hidden; background: #f2f2ef; }
 .collection-card h3 { margin: 16px 0 0; font-family: var(--serif); font-size: clamp(16px, 1.25vw, 18px); font-weight: 400; text-align: center; }
 /* Kategori adının altında ince, parlayan altın çizgi (Tiffany gibi).
    Renk geçişi çizgi üzerinde yavaşça kayar, ışık alıyormuş gibi parlar.
@@ -798,9 +797,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .section { padding: 68px 20px; }
   /* Telefonda kartlar ikişerli; tek kalan son kart (5.) aynı boyutta ortalanır. */
   .collections-section { padding-top: 44px; padding-bottom: 44px; }
-  .collections-section .section-heading { margin-bottom: 24px; }
-  .collection-grid { grid-template-columns: repeat(3, 1fr); gap: 24px 12px; }
-  .collection-image { width: min(114px, 100%); }
+  /* Telefonda 3+3; kareler ekran genişliğini doldurur (kenar ve ara boşluklar daraltıldı) */
+  .collections-section { padding-left: 12px; padding-right: 12px; }
+  .collection-grid { grid-template-columns: repeat(3, 1fr); gap: 22px 8px; }
+  .collection-image { width: 100%; }
   .collection-card h3 { margin-top: 10px; font-size: 14px; }
   .product-grid { gap: 12px; }
   /* Telefonda kartlar alt alta, tam genişlik (yan yana çok küçük kalırdı). */
