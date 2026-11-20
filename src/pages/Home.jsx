@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
+import FadeImage from '../components/FadeImage'
 import Icon from '../components/Icon'
-import ProductCard from '../components/ProductCard'
-import { categories, products } from '../data/products'
+import { categories } from '../data/products'
+import { promotions } from '../data/promotions'
 import { useStore } from '../store/store-context'
 
 // Video: public/jewelry/hero.mp4. Dosya yoksa ya da açılamazsa hero.jpg kapak olarak görünür.
@@ -100,16 +101,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section products-section">
-        <div className="section-heading">
-          <p className="eyebrow">AURELIA SEÇKİLERİ</p>
-          <h2>Gözde tasarımlar</h2>
-          <p>Kendiniz için ya da sevdiklerinize, unutulmayacak bir hediye.</p>
+      {/* Dört kampanya kartı; içerik src/data/promotions.js dosyasından gelir. */}
+      <section className="section promo-section" aria-label="Kampanyalar">
+        <div className="promo-grid">
+          {promotions.map((promo) => (
+            <Link className="promo-card" to={promo.to} key={promo.id}>
+              <div className="promo-image"><FadeImage src={promo.image} alt="" loading="lazy" /></div>
+              <h3>{promo.title}</h3>
+              {promo.discount && <p className="promo-discount">{promo.discount}</p>}
+              <span className="promo-link">Keşfet <span aria-hidden="true">↗</span></span>
+            </Link>
+          ))}
         </div>
-        <div className="product-grid">
-          {products.slice(0, 4).map((product) => <ProductCard key={product.id} product={product} />)}
-        </div>
-        <p className="section-action"><Link className="text-link" to="/koleksiyon">Tümünü gör <span aria-hidden="true">↗</span></Link></p>
       </section>
 
       <section className="story" id="hikaye">

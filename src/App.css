@@ -268,7 +268,6 @@ img { max-width: 100%; }
   text-decoration: none;
   cursor: pointer;
 }
-.section-action { margin: 44px 0 0; text-align: center; }
 .empty-state { text-align: center; color: var(--muted); line-height: 2; }
 .primary-button,
 .outline-button {
@@ -382,6 +381,23 @@ img { max-width: 100%; }
 }
 .collection-card:hover img,
 .product-card:hover .product-image img { transform: scale(1.025); }
+
+/* Kampanya kartları: dört kart yan yana, fotoğraf + başlık + link. */
+.promo-section { background: var(--paper); }
+.promo-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.promo-card { display: flex; flex-direction: column; align-items: flex-start; text-decoration: none; }
+.promo-image { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: #ecece8; }
+.promo-image img { width: 100%; height: 100%; display: block; object-fit: cover; transition: opacity .9s ease, transform .6s ease; }
+.promo-card:hover .promo-image img { transform: scale(1.025); }
+.promo-card h3 { margin: 20px 0 0; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; line-height: 1.5; text-transform: uppercase; }
+.promo-discount { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+.promo-link { margin-top: 12px; border-bottom: 1px solid var(--ink); font-size: 12px; font-weight: 600; letter-spacing: 1px; }
 
 .story { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 590px; background: #eaf4f2; }
 .story-image { min-height: 590px; }
@@ -558,7 +574,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .nav-item { font-size: 12px; letter-spacing: .8px; }
   .nav-feature { gap: 16px; }
   .nav-feature a { font-size: 18px; }
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-grid,
+  .promo-grid { grid-template-columns: repeat(2, 1fr); }
+  .promo-grid { gap: 32px 14px; }
   .collection-grid { gap: 14px; }
   .collection-card h3 { font-size: 19px; }
   .collection-meta { flex-direction: column; align-items: flex-start; }
@@ -632,6 +650,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .collection-card { flex: 0 0 44%; scroll-snap-align: start; }
   .collection-card h3 { font-size: 18px; }
   .product-grid { gap: 12px; }
+  .promo-grid { gap: 28px 12px; }
+  .promo-card h3 { margin-top: 14px; font-size: 12px; letter-spacing: 1px; }
+  .promo-link { margin-top: 8px; font-size: 11px; }
   .product-card h3 { font-size: 15px; }
   .quick-add { height: 40px; font-size: 10px; }
   .shop-toolbar { flex-direction: column; align-items: stretch; }
