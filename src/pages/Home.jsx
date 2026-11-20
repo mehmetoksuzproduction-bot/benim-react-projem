@@ -10,15 +10,17 @@ import { useStore } from '../store/store-context'
 function HeroVideo() {
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
-  // Düğme yalnızca video gerçekten yüklendiğinde görünür; dosya yoksa kapak fotoğrafı kalır.
+  // ready: ilk kare hazır, video yumuşakça belirir. Öncesinde koyu zemin görünür (eski fotoğraf yanıp sönmez).
   const [ready, setReady] = useState(false)
+  // fallback: video oynatılamazsa (dosya yok, tarayıcı engelledi) yedek fotoğraf gösterilir.
+  const [fallback, setFallback] = useState(false)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
     video.muted = true
-    // Hareket azaltmayı seçen kullanıcılarda video kendiliğinden başlamaz.
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.play().catch(() => {})
+    // Hareket azaltmayı seçen kullanıcılarda video kendiliğinden başlamaz, ilk karesi durağan görünür.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.play().catch(() => setFallback(true))
   }, [])
 
   const toggleVideo = () => {
@@ -29,10 +31,10 @@ function HeroVideo() {
 
   return (
     <section className="hero">
+      {fallback && !ready && <img className="hero-fallback" src="/jewelry/hero.jpg" alt="" />}
       <video
         ref={videoRef}
-        className="hero-video"
-        poster="/jewelry/hero.jpg"
+        className={ready ? 'hero-video is-ready' : 'hero-video'}
         muted
         loop
         playsInline
@@ -41,6 +43,7 @@ function HeroVideo() {
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onLoadedData={() => setReady(true)}
+        onError={() => setFallback(true)}
       >
         <source src="/jewelry/hero.mp4" type="video/mp4" />
       </video>

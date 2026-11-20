@@ -66,8 +66,8 @@ export default function Header({ overlay = false }) {
     }
   }, [anythingOpen])
 
-  // Tıklama dokunmatik ekran ve klavye için: aynı başlığa tekrar tıklamak paneli kapatır.
-  const toggleMenu = (id) => (openMenu === id ? hideMenu() : showMenu(id))
+  // Tıklama paneli yalnızca açar: fareyle açılmış panele alışkanlıkla tıklamak onu kapatmasın.
+  // Kapatma: fare menüden çıkınca, Esc tuşu ya da menü dışına tıklama.
 
   const toggleSearch = () => {
     hideMenu()
@@ -123,7 +123,7 @@ export default function Header({ overlay = false }) {
                 {item.columns ? (
                   <button
                     className="nav-item"
-                    onClick={() => toggleMenu(item.id)}
+                    onClick={() => showMenu(item.id)}
                     onMouseEnter={() => hoverMenu(item.id)}
                     onMouseLeave={() => !openMenu && clearHoverTimer()}
                     aria-expanded={openMenu === item.id}
