@@ -9,6 +9,7 @@ import Icon from './Icon'
 export default function Header({ overlay = false }) {
   const { favorites, cartCount } = useStore()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const headerRef = useRef(null)
   const hoverTimer = useRef(null)
   const [openMenu, setOpenMenu] = useState(null)
@@ -21,8 +22,31 @@ export default function Header({ overlay = false }) {
   const panel = navigation.find((item) => item.id === panelId && item.columns)
   const anythingOpen = Boolean(openMenu || mobileOpen || searchOpen)
 
+  // Sayfa, büyük menünün boyu kadar aşağı kaydırılınca menü ince haliyle ekranın üstüne sabitlenir (Tiffany gibi).
+  const [compact, setCompact] = useState(false)
+  const fullHeight = useRef(0)
+  useEffect(() => {
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const header = headerRef.current
+      if (!header) return
+      // Eşik, menünün büyük halinin yüksekliği; ince haldeyken ölçülmez.
+      if (!header.classList.contains('is-compact')) fullHeight.current = header.offsetHeight
+      setCompact(window.scrollY > fullHeight.current)
+    }
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [pathname])
+
   // Kayan alt çubuk: fare hangi başlıktaysa oraya kayar; fare yoksa açık panelin ya da bulunulan kategorinin altında durur.
-  const { pathname } = useLocation()
   const navListRef = useRef(null)
   const [hoverId, setHoverId] = useState(null)
   const [bar, setBar] = useState({ left: 0, width: 0, visible: false, slide: false })
@@ -105,7 +129,7 @@ export default function Header({ overlay = false }) {
     setQuery('')
   }
 
-  const headerClass = ['header', anythingOpen && 'is-open'].filter(Boolean).join(' ')
+  const headerClass = ['header', anythingOpen && 'is-open', compact && 'is-compact'].filter(Boolean).join(' ')
 
   return (
     <div className={overlay ? 'masthead is-overlay' : 'masthead'}>

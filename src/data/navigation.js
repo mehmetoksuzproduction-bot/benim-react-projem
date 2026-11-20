@@ -49,4 +49,4 @@ export const navigation = [
   ...jewelryCategories.map((category) => ({ id: category.slug, ...categoryLink(category) })),
 ]
 
-export const featureLink = { label: 'Aurelia Dünyası', to: '/#hikaye' }
+export const featureLink = { label: 'Aurelia Dünyası', to: '/#aurelia-dunyasi' }

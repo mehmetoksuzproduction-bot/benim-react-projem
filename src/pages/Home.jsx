@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import FadeImage from '../components/FadeImage'
 import Icon from '../components/Icon'
-import { categories } from '../data/products'
+import ProductRail from '../components/ProductRail'
+import { categories, products } from '../data/products'
 import { promotions } from '../data/promotions'
-import { useStore } from '../store/store-context'
 
 // Video: public/jewelry/hero.mp4. Dosya yoksa ya da açılamazsa hero.jpg kapak olarak görünür.
 // Video her zaman sessizdir; ses açma düğmesi yoktur.
@@ -64,16 +64,6 @@ function HeroVideo() {
 }
 
 export default function Home() {
-  const { notify } = useStore()
-  const [email, setEmail] = useState('')
-
-  const submitNewsletter = (event) => {
-    event.preventDefault()
-    if (!email.trim()) return
-    notify('Aurelia dünyasına hoş geldiniz. Yeni koleksiyonlardan ilk siz haberdar olacaksınız.')
-    setEmail('')
-  }
-
   return (
     <>
       <HeroVideo />
@@ -101,40 +91,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Dört kampanya kartı; içerik src/data/promotions.js dosyasından gelir. */}
-      <section className="section promo-section" aria-label="Kampanyalar">
+      {/* Dört kampanya kartı, kenardan kenara 2x2; içerik src/data/promotions.js dosyasından gelir. */}
+      <section className="promo-section" aria-label="Kampanyalar">
         <div className="promo-grid">
           {promotions.map((promo) => (
             <Link className="promo-card" to={promo.to} key={promo.id}>
-              <div className="promo-image"><FadeImage src={promo.image} alt="" loading="lazy" /></div>
-              <h3>{promo.title}</h3>
-              {promo.discount && <p className="promo-discount">{promo.discount}</p>}
-              <span className="promo-link">Keşfet <span aria-hidden="true">↗</span></span>
+              <FadeImage src={promo.image} alt="" loading="lazy" />
+              <div className="promo-caption">
+                <h3>{promo.title}</h3>
+                {promo.discount && <p className="promo-discount">{promo.discount}</p>}
+                <span className="promo-link">Keşfet <span aria-hidden="true">↗</span></span>
+              </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="story" id="hikaye">
-        <div className="story-image"><img src="/jewelry/story.jpg" alt="Aurelia atölyesinde özenle işlenen mücevher" loading="lazy" /></div>
-        <div className="story-content">
-          <p className="eyebrow">USTALIĞIN İZİ</p>
-          <h2>Nesilden nesile aktarılan bir sanat</h2>
-          <p>Her parçamız; seçilmiş taşlar, ustaların elleri ve kusursuz işçilikle hayat buluyor. Bizim için mücevher yalnızca bir aksesuar değil, sizinle birlikte anlam kazanan bir miras.</p>
-          <Link className="text-link" to="/koleksiyon">Koleksiyonu keşfedin <span aria-hidden="true">↗</span></Link>
+      {/* Marka bölümü: menüdeki ve alttaki "Aurelia Dünyası" linkleri buraya gelir. */}
+      <section className="brand-story" id="aurelia-dunyasi">
+        <h2>Her gün takılmak için tasarlanan mücevherler</h2>
+        <div className="brand-story-text">
+          <p>Uzun zaman boyunca değerli mücevherler özel günleri bekledi. Kadife kutularda saklandı, yalnızca düğünlerde, yıldönümlerinde çıkarıldı.</p>
+          <p>Aurelia’da bir mücevherin değeri, ne kadar sık takıldığıyla ölçülür. Sabah kahvesinde, bir toplantının ortasında, akşam yemeğinde. Her parçamız sizinle birlikte yaşamak için özenle tasarlanır; çünkü o ışıltıyı her gün hak ediyorsunuz.</p>
+          <Link className="brand-story-link" to="/koleksiyon">Koleksiyonu keşfedin</Link>
         </div>
       </section>
 
-      <section className="newsletter">
-        <p className="eyebrow">AURELIA DÜNYASI</p>
-        <h2>Güzelliğin küçük bir sırrı</h2>
-        <p>Yeni koleksiyonları ve size özel notlarımızı ilk siz keşfedin.</p>
-        <form onSubmit={submitNewsletter}>
-          <label className="sr-only" htmlFor="newsletter-email">E-posta adresiniz</label>
-          <input id="newsletter-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="E-posta adresiniz" required />
-          <button type="submit">Aramıza katıl <span aria-hidden="true">→</span></button>
-        </form>
-      </section>
+      <ProductRail title="Sizin için seçtiklerimiz" products={products} />
     </>
   )
 }

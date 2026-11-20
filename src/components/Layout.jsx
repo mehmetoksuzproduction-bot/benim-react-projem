@@ -7,7 +7,7 @@ import Toast from './Toast'
 export default function Layout() {
   const { pathname, hash } = useLocation()
 
-  // Sayfa değişince en üste dön; "/#hikaye" gibi linklerde ilgili bölüme kaydır.
+  // Sayfa değişince en üste dön; "/#aurelia-dunyasi" gibi linklerde ilgili bölüme kaydır.
   useEffect(() => {
     if (hash) {
       document.getElementById(hash.slice(1))?.scrollIntoView()
