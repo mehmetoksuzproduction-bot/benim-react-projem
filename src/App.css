@@ -363,7 +363,6 @@ img { max-width: 100%; }
 }
 .collection-card { text-decoration: none; }
 .collection-image { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #f2f2ef; }
-.collection-index { position: absolute; left: 16px; top: 16px; color: #fff; font-size: 11px; letter-spacing: 2px; text-shadow: 0 1px 8px #0008; }
 .collection-meta { display: flex; align-items: center; justify-content: space-between; }
 .collection-card h3 { margin: 20px 0 6px; font-family: var(--serif); font-size: 24px; font-weight: 400; }
 .collection-meta > span { border-bottom: 1px solid var(--ink); font-size: 11px; font-weight: 600; letter-spacing: 1px; }
@@ -516,7 +515,9 @@ img { max-width: 100%; }
   transform: translateY(8px);
   transition: .25s;
 }
-.quick-add span { margin-left: 8px; font-size: 16px; }
+.quick-add svg { margin-left: 8px; vertical-align: -2px; }
+/* Yazının yanındaki küçük çizgi ok simgesi */
+.link-arrow { display: inline-flex; align-items: center; gap: 4px; }
 .product-card:hover .quick-add,
 .quick-add:focus-visible { opacity: 1; transform: translateY(0); }
 .product-category { margin: 16px 0 5px; color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
@@ -720,20 +721,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .hero-button { min-height: 52px; padding: 0 32px; font-size: 13px; }
   .hero-toggle { right: 16px; bottom: 16px; width: 36px; height: 36px; }
   .section { padding: 68px 20px; }
-  /* Telefonda beş kart tek sırada, parmakla kaydırılır; sağdaki kartın ucu görünür. */
-  .collection-grid {
-    display: flex;
-    gap: 12px;
-    margin: 0 -20px;
-    padding: 0 20px 8px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding: 0 20px;
-    scrollbar-width: none;
-  }
-  .collection-grid::-webkit-scrollbar { display: none; }
-  .collection-card { flex: 0 0 44%; scroll-snap-align: start; }
-  .collection-card h3 { font-size: 18px; }
+  /* Telefonda kartlar ikişerli; tek kalan son kart (5.) aynı boyutta ortalanır. */
+  .collection-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 12px; }
+  .collection-card:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 6px); }
+  .collection-card h3 { margin-top: 14px; font-size: 18px; }
   .product-grid { gap: 12px; }
   /* Telefonda kartlar alt alta, tam genişlik (yan yana çok küçük kalırdı). */
   .promo-grid { grid-template-columns: 1fr; }

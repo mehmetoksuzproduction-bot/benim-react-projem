@@ -76,15 +76,14 @@ export default function Home() {
         </div>
         {/* Beş kategori tek sırada; telefonda parmakla kaydırılan şerit. */}
         <div className="collection-grid">
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <Link className="collection-card" to={`/koleksiyon/${category.slug}`} key={category.slug}>
               <div className="collection-image">
                 <img src={category.image} alt={`${category.name} koleksiyonu`} loading="lazy" />
-                <span className="collection-index">0{index + 1}</span>
               </div>
               <div className="collection-meta">
                 <h3>{category.name}</h3>
-                <span>Keşfet <span aria-hidden="true">↗</span></span>
+                <span className="link-arrow">Keşfet <Icon name="arrow-up-right" size={13} /></span>
               </div>
             </Link>
           ))}
@@ -100,7 +99,7 @@ export default function Home() {
               <div className="promo-caption">
                 <h3>{promo.title}</h3>
                 {promo.discount && <p className="promo-discount">{promo.discount}</p>}
-                <span className="promo-link">Keşfet <span aria-hidden="true">↗</span></span>
+                <span className="promo-link link-arrow">Keşfet <Icon name="arrow-up-right" size={13} /></span>
               </div>
             </Link>
           ))}

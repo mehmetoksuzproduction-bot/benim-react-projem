@@ -25,7 +25,7 @@ export default function ProductCard({ product }) {
         {product.sizes ? (
           <Link className="quick-add" to={url}>Seçenekleri gör</Link>
         ) : (
-          <button className="quick-add" onClick={() => addToCart(product)}>Sepete ekle <span aria-hidden="true">＋</span></button>
+          <button className="quick-add" onClick={() => addToCart(product)}>Sepete ekle <Icon name="plus" size={14} /></button>
         )}
       </div>
       <p className="product-category">{getCategory(product.category)?.name}</p>
