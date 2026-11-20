@@ -1,16 +1,34 @@
-# React + Vite
+# Aurelia İstanbul
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React 19 + Vite ile hazırlanmış mücevher mağazası.
 
-Currently, two official plugins are available:
+## Komutlar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install      # bağımlılıkları kur
+npm run dev      # geliştirme sunucusu
+npm run build    # yayın için derle (dist/)
+npm run lint     # kod kontrolü
+```
 
-## React Compiler
+## Yapı
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+  data/products.js    Ürünler ve kategoriler (yeni ürün buraya eklenir)
+  store/              Sepet, favoriler ve bildirimler (tarayıcıda saklanır)
+  components/         Header, Footer, ProductCard, Toast, Layout
+  pages/              Ana sayfa, Koleksiyon, Ürün, Favoriler, Sepet, 404
+public/jewelry/       Ürün görselleri
+```
 
-## Expanding the Oxlint configuration
+## Sayfalar
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+| Adres | Sayfa |
+| --- | --- |
+| `/` | Ana sayfa |
+| `/koleksiyon`, `/koleksiyon/yuzukler` | Koleksiyon (malzeme filtresi, fiyat sıralaması, arama `?q=`) |
+| `/urun/:slug` | Ürün detay |
+| `/favoriler`, `/sepet` | Favoriler, sepet |
+
+Site birden fazla sayfa kullandığı için yayınlarken sunucunun bilinmeyen adresleri `index.html`'e yönlendirmesi gerekir (Vercel ve Netlify'da SPA ayarı).
