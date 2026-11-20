@@ -72,7 +72,7 @@ export default function Home() {
         <div className="section-heading">
           <h2>Size özel bir ışıltı</h2>
         </div>
-        {/* Kategoriler küçük yuvarlak fotoğraflar halinde: bilgisayarda 6'lı sıra, telefonda 3+3. */}
+        {/* Kategoriler küçük kare fotoğraflar halinde: bilgisayarda 6'lı sıra, telefonda 3+3. */}
         <div className="collection-grid">
           {categories.map((category) => (
             <Link className="collection-card" to={`/koleksiyon/${category.slug}`} key={category.slug}>
