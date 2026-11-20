@@ -1,8 +1,64 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
+import Icon from '../components/Icon'
 import ProductCard from '../components/ProductCard'
 import { categories, products } from '../data/products'
 import { useStore } from '../store/store-context'
+
+// Video: public/jewelry/hero.mp4. Dosya yoksa ya da açılamazsa hero.jpg kapak olarak görünür.
+function HeroVideo() {
+  const videoRef = useRef(null)
+  const [playing, setPlaying] = useState(false)
+  // Düğme yalnızca video gerçekten yüklendiğinde görünür; dosya yoksa kapak fotoğrafı kalır.
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = true
+    // Hareket azaltmayı seçen kullanıcılarda video kendiliğinden başlamaz.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) video.play().catch(() => {})
+  }, [])
+
+  const toggleVideo = () => {
+    const video = videoRef.current
+    if (video.paused) video.play().catch(() => {})
+    else video.pause()
+  }
+
+  return (
+    <section className="hero">
+      <video
+        ref={videoRef}
+        className="hero-video"
+        poster="/jewelry/hero.jpg"
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onLoadedData={() => setReady(true)}
+      >
+        <source src="/jewelry/hero.mp4" type="video/mp4" />
+      </video>
+
+      <div className="hero-content">
+        <p className="eyebrow">YENİ KOLEKSİYON · 2026</p>
+        <h1>Işığın en özel hâli</h1>
+        <p>Zamanın ötesine geçen tasarımlarla, hikâyenizi ışıltıyla anlatın.</p>
+        <Link className="hero-button" to="/koleksiyon">Koleksiyonu keşfet <span aria-hidden="true">↗</span></Link>
+      </div>
+
+      {ready && (
+        <button className="hero-toggle" onClick={toggleVideo} aria-label={playing ? 'Videoyu durdur' : 'Videoyu oynat'}>
+          <Icon name={playing ? 'pause' : 'play'} size={16} />
+        </button>
+      )}
+    </section>
+  )
+}
 
 export default function Home() {
   const { notify } = useStore()
@@ -17,15 +73,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="hero">
-        <div className="hero-content">
-          <p className="eyebrow">YENİ KOLEKSİYON · 2026</p>
-          <h1>Işığın en özel hâli</h1>
-          <p>Zamanın ötesine geçen tasarımlarla, hikâyenizi ışıltıyla anlatın.</p>
-          <Link className="hero-button" to="/koleksiyon">Koleksiyonu keşfet <span aria-hidden="true">↗</span></Link>
-        </div>
-        <span className="hero-caption">Her anınıza eşlik eden bir ışıltı</span>
-      </section>
+      <HeroVideo />
 
       <section className="section">
         <div className="section-heading">

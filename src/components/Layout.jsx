@@ -18,7 +18,7 @@ export default function Layout() {
 
   return (
     <div className="site">
-      <Header />
+      <Header overlay={pathname === '/'} />
       <main>
         <Outlet />
       </main>

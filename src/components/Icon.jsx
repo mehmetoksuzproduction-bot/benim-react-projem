@@ -4,6 +4,8 @@ const paths = {
   bag: <><path d="M5 8h14l-1 13H6L5 8Z" /><path d="M9 9V6a3 3 0 0 1 6 0v3" /></>,
   menu: <path d="M3 6h18M3 12h18M3 18h18" />,
   close: <path d="m18 6-12 12M6 6l12 12" />,
+  pause: <path d="M9 6v12M15 6v12" />,
+  play: <path d="M8 5v14l11-7L8 5Z" />,
 }
 
 export default function Icon({ name, size = 20 }) {

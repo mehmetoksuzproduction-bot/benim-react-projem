@@ -1,6 +1,6 @@
 import { NavLink, useParams, useSearchParams } from 'react-router'
 import ProductCard from '../components/ProductCard'
-import { categories, getCategory, materials, normalize, products } from '../data/products'
+import { categories, formatPrice, getCategory, materials, normalize, products } from '../data/products'
 import NotFound from './NotFound'
 
 const sorters = {
@@ -15,6 +15,7 @@ export default function Shop() {
   const query = params.get('q') ?? ''
   const material = params.get('malzeme') ?? ''
   const sort = params.get('sirala') ?? ''
+  const maxPrice = Number(params.get('fiyat')) || 0
 
   if (categorySlug && !category) return <NotFound />
 
@@ -28,6 +29,7 @@ export default function Shop() {
   const results = products
     .filter((product) => !category || product.category === category.slug)
     .filter((product) => !material || product.material === material)
+    .filter((product) => !maxPrice || product.price <= maxPrice)
     .filter((product) => !query || normalize(`${product.name} ${getCategory(product.category)?.name} ${product.material}`).includes(normalize(query)))
     .sort(sorters[sort] ?? (() => 0))
 
@@ -40,6 +42,12 @@ export default function Shop() {
           <p>
             “{query}” için {results.length} parça bulundu.{' '}
             <button className="link-button" onClick={() => setParam('q', '')}>Aramayı temizle</button>
+          </p>
+        )}
+        {maxPrice > 0 && (
+          <p>
+            {formatPrice(maxPrice)} ve altı.{' '}
+            <button className="link-button" onClick={() => setParam('fiyat', '')}>Bütçe filtresini kaldır</button>
           </p>
         )}
       </div>
