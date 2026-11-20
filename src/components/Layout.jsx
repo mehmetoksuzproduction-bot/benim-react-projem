@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router'
+import Crosshair from './Crosshair'
 import Footer from './Footer'
 import Header from './Header'
 import Toast from './Toast'
@@ -24,6 +25,7 @@ export default function Layout() {
       </main>
       <Footer />
       <Toast />
+      <Crosshair />
     </div>
   )
 }

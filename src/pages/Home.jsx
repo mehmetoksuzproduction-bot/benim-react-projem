@@ -70,21 +70,17 @@ export default function Home() {
 
       <section className="section collections-section">
         <div className="section-heading">
-          <p className="eyebrow">AURELIA’YI KEŞFEDİN</p>
           <h2>Size özel bir ışıltı</h2>
-          <p>Her hikâyeye eşlik eden zamansız parçalar.</p>
         </div>
-        {/* Beş kategori tek sırada; telefonda parmakla kaydırılan şerit. */}
+        {/* Kategoriler küçük yuvarlak fotoğraflar halinde: bilgisayarda 6'lı sıra, telefonda 3+3. */}
         <div className="collection-grid">
           {categories.map((category) => (
             <Link className="collection-card" to={`/koleksiyon/${category.slug}`} key={category.slug}>
               <div className="collection-image">
                 <img src={category.image} alt={`${category.name} koleksiyonu`} loading="lazy" />
               </div>
-              <div className="collection-meta">
-                <h3>{category.name}</h3>
-                <span className="link-arrow">Keşfet <Icon name="arrow-up-right" size={13} /></span>
-              </div>
+              {/* Kategori adının altında parlayan altın çizgi (CSS: .collection-name) */}
+              <h3 className="collection-name"><span>{category.name}</span></h3>
             </Link>
           ))}
         </div>
@@ -108,7 +104,7 @@ export default function Home() {
 
       {/* Marka bölümü: menüdeki ve alttaki "Aurelia Dünyası" linkleri buraya gelir. */}
       <section className="brand-story" id="aurelia-dunyasi">
-        <h2>Her gün takılmak için tasarlanan mücevherler</h2>
+        <h2><span>Her gün takılmak için tasarlanan</span> <span>mücevherler</span></h2>
         <div className="brand-story-text">
           <p>Uzun zaman boyunca değerli mücevherler özel günleri bekledi. Kadife kutularda saklandı, yalnızca düğünlerde, yıldönümlerinde çıkarıldı.</p>
           <p>Aurelia’da bir mücevherin değeri, ne kadar sık takıldığıyla ölçülür. Sabah kahvesinde, bir toplantının ortasında, akşam yemeğinde. Her parçamız sizinle birlikte yaşamak için özenle tasarlanır; çünkü o ışıltıyı her gün hak ediyorsunuz.</p>
