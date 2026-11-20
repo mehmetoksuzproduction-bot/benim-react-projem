@@ -9,16 +9,41 @@ export default function Header({ overlay = false }) {
   const { favorites, cartCount } = useStore()
   const navigate = useNavigate()
   const headerRef = useRef(null)
+  const hoverTimer = useRef(null)
   const [openMenu, setOpenMenu] = useState(null)
+  // Panel kapanırken içeriği kaybolmasın diye son açılan paneli tutuyoruz (yumuşak kapanış için).
+  const [panelId, setPanelId] = useState(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
 
-  const activePanel = navigation.find((item) => item.id === openMenu && item.columns)
+  const panel = navigation.find((item) => item.id === panelId && item.columns)
   const anythingOpen = Boolean(openMenu || mobileOpen || searchOpen)
 
-  const closeAll = () => {
+  const clearHoverTimer = () => clearTimeout(hoverTimer.current)
+  useEffect(() => () => clearTimeout(hoverTimer.current), [])
+
+  const showMenu = (id) => {
+    clearHoverTimer()
+    setSearchOpen(false)
+    setPanelId(id)
+    setOpenMenu(id)
+  }
+
+  const hideMenu = () => {
+    clearHoverTimer()
     setOpenMenu(null)
+  }
+
+  // Fare üzerine gelince: panel zaten açıksa hemen geçiş yap, değilse kısa bir an bekle.
+  const hoverMenu = (id) => {
+    clearHoverTimer()
+    if (openMenu) showMenu(id)
+    else hoverTimer.current = setTimeout(() => showMenu(id), 120)
+  }
+
+  const closeAll = () => {
+    hideMenu()
     setMobileOpen(false)
     setSearchOpen(false)
   }
@@ -41,13 +66,11 @@ export default function Header({ overlay = false }) {
     }
   }, [anythingOpen])
 
-  const toggleMenu = (id) => {
-    setSearchOpen(false)
-    setOpenMenu((current) => (current === id ? null : id))
-  }
+  // Tıklama dokunmatik ekran ve klavye için: aynı başlığa tekrar tıklamak paneli kapatır.
+  const toggleMenu = (id) => (openMenu === id ? hideMenu() : showMenu(id))
 
   const toggleSearch = () => {
-    setOpenMenu(null)
+    hideMenu()
     setMobileOpen(false)
     setSearchOpen((open) => !open)
   }
@@ -64,9 +87,7 @@ export default function Header({ overlay = false }) {
 
   return (
     <div className={overlay ? 'masthead is-overlay' : 'masthead'}>
-      <div className="announcement">İstanbul içi ücretsiz teslimat <span>•</span> Özenle hazırlanmış her siparişte</div>
-
-      <header ref={headerRef} className={headerClass} onMouseLeave={() => setOpenMenu(null)}>
+      <header ref={headerRef} className={headerClass} onMouseLeave={hideMenu}>
         <div className="header-top">
           <div className="header-left">
             <button className="icon-button menu-button" onClick={() => { setSearchOpen(false); setMobileOpen(!mobileOpen) }} aria-label={mobileOpen ? 'Menüyü kapat' : 'Menüyü aç'} aria-expanded={mobileOpen}>
@@ -100,23 +121,30 @@ export default function Header({ overlay = false }) {
             {navigation.map((item) => (
               <li key={item.id}>
                 {item.columns ? (
-                  <button className="nav-item" onClick={() => toggleMenu(item.id)} aria-expanded={openMenu === item.id} aria-controls="mega-menu">
+                  <button
+                    className="nav-item"
+                    onClick={() => toggleMenu(item.id)}
+                    onMouseEnter={() => hoverMenu(item.id)}
+                    onMouseLeave={() => !openMenu && clearHoverTimer()}
+                    aria-expanded={openMenu === item.id}
+                    aria-controls="mega-menu"
+                  >
                     {item.label}
                   </button>
                 ) : (
-                  <NavLink className="nav-item" to={item.to} onClick={closeAll}>{item.label}</NavLink>
+                  <NavLink className="nav-item" to={item.to} onClick={closeAll} onMouseEnter={hideMenu}>{item.label}</NavLink>
                 )}
               </li>
             ))}
-            <li className="nav-feature"><Link to={featureLink.to} onClick={closeAll}>{featureLink.label}</Link></li>
+            <li className="nav-feature"><Link to={featureLink.to} onClick={closeAll} onMouseEnter={hideMenu}>{featureLink.label}</Link></li>
           </ul>
         </nav>
 
-        {activePanel && (
-          <div className="mega-menu" id="mega-menu">
-            <div className="mega-inner">
+        {panel && (
+          <div className={openMenu ? 'mega-menu is-visible' : 'mega-menu'} id="mega-menu" aria-hidden={!openMenu}>
+            <div className="mega-inner" key={panel.id}>
               <div className="mega-columns">
-                {activePanel.columns.map((column) => (
+                {panel.columns.map((column) => (
                   <div key={column.title}>
                     <h3>{column.title}</h3>
                     <ul>
@@ -128,7 +156,7 @@ export default function Header({ overlay = false }) {
                 ))}
               </div>
               <div className="mega-tiles">
-                {activePanel.tiles.map((tile) => (
+                {panel.tiles.map((tile) => (
                   <Link className="mega-tile" key={tile.label} to={tile.to} onClick={closeAll}>
                     <img src={tile.image} alt="" loading="lazy" />
                     <span>{tile.label}</span>

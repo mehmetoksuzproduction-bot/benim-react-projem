@@ -6,6 +6,7 @@ import { categories, products } from '../data/products'
 import { useStore } from '../store/store-context'
 
 // Video: public/jewelry/hero.mp4. Dosya yoksa ya da açılamazsa hero.jpg kapak olarak görünür.
+// Video her zaman sessizdir; ses açma düğmesi yoktur.
 function HeroVideo() {
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
@@ -45,10 +46,8 @@ function HeroVideo() {
       </video>
 
       <div className="hero-content">
-        <p className="eyebrow">YENİ KOLEKSİYON · 2026</p>
         <h1>Işığın en özel hâli</h1>
-        <p>Zamanın ötesine geçen tasarımlarla, hikâyenizi ışıltıyla anlatın.</p>
-        <Link className="hero-button" to="/koleksiyon">Koleksiyonu keşfet <span aria-hidden="true">↗</span></Link>
+        <Link className="hero-button" to="/koleksiyon">Alışverişe başla</Link>
       </div>
 
       {ready && (
