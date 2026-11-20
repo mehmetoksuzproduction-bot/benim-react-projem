@@ -1,6 +1,10 @@
 :root {
   --ink: #111111;
-  --paper: #f7f7f5;
+  /* Sıcak bej tonlar: sitenin genelinde kullanılır */
+  --sand: #f6f0e8;
+  --sand-deep: #ebe2d5;
+  --taupe: #c4bcb9;
+  --paper: var(--sand);
   --muted: #777777;
   --line: #e7e3db;
   --gold: #9a7845;
@@ -354,6 +358,7 @@ img { max-width: 100%; }
 }
 .hero-button:hover { background: #ececea; }
 
+.collections-section { background: var(--sand); }
 .collection-grid {
   max-width: 1440px;
   margin: 0 auto;
@@ -396,25 +401,26 @@ img { max-width: 100%; }
 .promo-card::after {
   content: '';
   position: absolute;
-  inset: 50% 0 0;
-  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.45));
+  inset: 35% 0 0;
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,.18) 40%, rgba(0,0,0,.55));
   pointer-events: none;
 }
-.promo-caption { position: absolute; z-index: 1; left: 32px; right: 32px; bottom: 32px; }
-.promo-caption h3 { margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 1.5px; line-height: 1.5; text-transform: uppercase; }
-.promo-discount { margin: 6px 0 0; font-size: 14px; opacity: .9; }
-.promo-link { display: inline-block; margin-top: 12px; border-bottom: 1px solid currentColor; font-size: 12px; font-weight: 600; letter-spacing: 1px; }
+/* Büyük başlık fotoğrafın sol altında */
+.promo-caption { position: absolute; z-index: 1; left: 48px; right: 48px; bottom: 56px; }
+.promo-caption h3 { max-width: 640px; margin: 0; font-size: clamp(28px, 2.9vw, 48px); font-weight: 500; letter-spacing: 1.5px; line-height: 1.18; text-transform: uppercase; text-shadow: 0 1px 24px rgba(0,0,0,.18); }
+.promo-discount { margin: 12px 0 0; font-size: 16px; opacity: .92; }
+.promo-link { display: inline-block; margin-top: 28px; border-bottom: 1px solid currentColor; font-size: 15px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
 
 /* Ürün şeridi: büyük başlık, yatay kaydırılan kartlar (Mejuri tarzı). */
 /* Marka bölümü: solda büyük başlık, sağda daktilo yazısıyla kısa metin. */
 .brand-story {
-  max-width: 1440px;
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 64px;
-  padding: 140px 48px 60px;
+  /* Bant kenardan kenara; içerik en fazla 1344px genişlikte ortada */
+  padding: 120px max(48px, calc((100% - 1344px) / 2));
+  background: var(--sand-deep);
 }
 .brand-story h2 { max-width: 520px; margin: 0 0 0 auto; padding-right: 8%; font-size: clamp(26px, 2.4vw, 36px); font-weight: 500; letter-spacing: .5px; line-height: 1.15; text-transform: uppercase; }
 .brand-story-text { max-width: 640px; }
@@ -428,7 +434,6 @@ img { max-width: 100%; }
   --rail-pad: 48px;
   padding: 96px 0;
 }
-.brand-story + .rail { padding-top: 72px; }
 .rail-title { margin: 0 0 32px; padding: 0 var(--rail-pad); font-size: clamp(28px, 3vw, 42px); font-weight: 600; letter-spacing: .5px; line-height: 1.1; text-transform: uppercase; }
 .rail-track {
   display: flex;
@@ -595,7 +600,7 @@ img { max-width: 100%; }
   gap: 48px;
   padding: 36px 48px 40px;
   border-top: 1px solid var(--ink);
-  background: #c4bcb9;
+  background: var(--taupe);
 }
 .footer-band h2 { margin: 0 0 18px; font-size: clamp(24px, 2.2vw, 32px); font-weight: 600; letter-spacing: .5px; line-height: 1.15; text-transform: uppercase; }
 .footer-band a { font-size: 14px; font-weight: 600; letter-spacing: .3px; text-decoration: none; text-transform: uppercase; }
@@ -603,6 +608,7 @@ img { max-width: 100%; }
 .footer-band p { margin: 0; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Courier New', monospace; font-size: 15px; line-height: 1.5; }
 
 /* Link sütunları */
+.site-footer { background: var(--sand); }
 .footer-main { display: grid; grid-template-columns: 1.2fr repeat(3, 1fr); gap: 40px; padding: 64px 48px 56px; }
 .footer-logo { align-items: flex-start; }
 .footer-logo span { margin-right: 0; font-size: 26px; letter-spacing: 5px; }
@@ -662,7 +668,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .nav-feature { gap: 16px; }
   .nav-feature a { font-size: 18px; }
   .product-grid { grid-template-columns: repeat(2, 1fr); }
-  .promo-caption { left: 24px; right: 24px; bottom: 24px; }
+  .promo-caption { left: 28px; right: 28px; bottom: 32px; }
+  .promo-caption h3 { font-size: 26px; }
+  .promo-link { margin-top: 18px; font-size: 13px; }
   .collection-grid { gap: 14px; }
   .collection-card h3 { font-size: 19px; }
   .collection-meta { flex-direction: column; align-items: flex-start; }
@@ -726,12 +734,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .collection-card:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 6px); }
   .collection-card h3 { margin-top: 14px; font-size: 18px; }
   .product-grid { gap: 12px; }
+  /* Telefonda giriş videosu kadının yüzüne doğru kaydırılır (yüz karenin sol tarafında). */
+  .hero-video, .hero-fallback { object-position: 26% center; }
   /* Telefonda kartlar alt alta, tam genişlik (yan yana çok küçük kalırdı). */
   .promo-grid { grid-template-columns: 1fr; }
   .promo-card { height: auto; aspect-ratio: 4 / 5; }
   .promo-caption { left: 20px; right: 20px; bottom: 22px; }
-  .promo-caption h3 { font-size: 13px; letter-spacing: 1.2px; }
-  .promo-link { margin-top: 8px; font-size: 11px; }
+  .promo-caption h3 { font-size: 24px; letter-spacing: 1px; }
+  .promo-link { margin-top: 16px; font-size: 13px; }
   .product-card h3 { font-size: 15px; }
   .quick-add { height: 40px; font-size: 10px; }
   .shop-toolbar { flex-direction: column; align-items: stretch; }
@@ -743,11 +753,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .cart-item { grid-template-columns: 72px 1fr; }
   .cart-item img { width: 72px; }
   .cart-item-side { grid-column: 2; flex-direction: row; align-items: center; }
-  .brand-story { grid-template-columns: 1fr; gap: 28px; padding: 80px 20px 24px; }
+  .brand-story { grid-template-columns: 1fr; gap: 28px; padding: 72px 20px; }
   .brand-story h2 { margin: 0; padding: 0; font-size: 24px; }
   .brand-story-text p { font-size: 14px; }
   .rail { --rail-full: 1; --rail-gap: 12px; --rail-pad: 20px; padding: 64px 0; }
-  .brand-story + .rail { padding-top: 56px; }
   .rail-title { margin-bottom: 24px; font-size: 24px; }
   .rail-controls { margin-top: 32px; }
   .footer-band { grid-template-columns: 1fr; gap: 20px; padding: 32px 20px; }

@@ -1,13 +1,13 @@
 export const categories = [
-  { slug: 'yuzukler', name: 'Yüzükler', image: '/jewelry/ring.jpg' },
-  { slug: 'kolyeler', name: 'Kolyeler', image: '/jewelry/necklace.jpg' },
-  { slug: 'kupeler', name: 'Küpeler', image: '/jewelry/earrings.jpg' },
-  { slug: 'bileklikler', name: 'Bileklikler', image: '/jewelry/bracelet.jpg' },
+  { slug: 'yuzukler', name: 'Yüzükler', image: '/jewelry/categories/yuzukler.jpg' },
+  { slug: 'kolyeler', name: 'Kolyeler', image: '/jewelry/categories/kolyeler.jpg' },
+  { slug: 'kupeler', name: 'Küpeler', image: '/jewelry/categories/kupeler.jpg' },
+  { slug: 'bileklikler', name: 'Bileklikler', image: '/jewelry/categories/bileklikler.jpg' },
   // seasonal: mücevher değil; Mücevher menüsünde ve üst menüde görünmez, Hediyeler panelinde yer alır.
   {
     slug: 'yilbasi-susleri',
     name: 'Yılbaşı Süsleri',
-    image: '/jewelry/snow-globe.jpg',
+    image: '/jewelry/categories/yilbasi-susleri.jpg',
     seasonal: true,
     emptyMessage: 'Yılbaşı seçkimiz çok yakında burada.',
   },

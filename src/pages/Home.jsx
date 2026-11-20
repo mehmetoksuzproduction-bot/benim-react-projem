@@ -68,7 +68,7 @@ export default function Home() {
     <>
       <HeroVideo />
 
-      <section className="section">
+      <section className="section collections-section">
         <div className="section-heading">
           <p className="eyebrow">AURELIA’YI KEŞFEDİN</p>
           <h2>Size özel bir ışıltı</h2>
@@ -99,7 +99,7 @@ export default function Home() {
               <div className="promo-caption">
                 <h3>{promo.title}</h3>
                 {promo.discount && <p className="promo-discount">{promo.discount}</p>}
-                <span className="promo-link link-arrow">Keşfet <Icon name="arrow-up-right" size={13} /></span>
+                <span className="promo-link">{promo.cta}</span>
               </div>
             </Link>
           ))}
