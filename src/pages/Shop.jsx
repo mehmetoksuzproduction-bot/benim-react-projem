@@ -81,7 +81,7 @@ export default function Shop() {
       {results.length > 0 ? (
         <div className="product-grid">{results.map((product) => <ProductCard key={product.id} product={product} />)}</div>
       ) : (
-        <p className="empty-state">Seçiminizle eşleşen ürün bulunamadı. Filtreleri değiştirmeyi deneyin.</p>
+        <p className="empty-state">{category?.emptyMessage ?? 'Seçiminizle eşleşen ürün bulunamadı. Filtreleri değiştirmeyi deneyin.'}</p>
       )}
     </section>
   )

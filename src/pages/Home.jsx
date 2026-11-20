@@ -83,6 +83,7 @@ export default function Home() {
           <h2>Size özel bir ışıltı</h2>
           <p>Her hikâyeye eşlik eden zamansız parçalar.</p>
         </div>
+        {/* Beş kategori tek sırada; telefonda parmakla kaydırılan şerit. */}
         <div className="collection-grid">
           {categories.map((category, index) => (
             <Link className="collection-card" to={`/koleksiyon/${category.slug}`} key={category.slug}>

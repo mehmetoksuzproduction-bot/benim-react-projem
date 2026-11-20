@@ -1,4 +1,7 @@
-import { categories, formatPrice, materials, products } from './products'
+import { categories, formatPrice, jewelryCategories, materials, products, seasonalCategory } from './products'
+
+const categoryLink = (category) => ({ label: category.name, to: `/koleksiyon/${category.slug}` })
+const categoryTile = (category) => ({ ...categoryLink(category), image: category.image })
 
 // columns olan başlıklar tıklanınca geniş panel açar, to olanlar doğrudan sayfaya gider.
 export const navigation = [
@@ -16,10 +19,14 @@ export const navigation = [
       },
       {
         title: 'Kategoriye göre',
-        links: categories.map((category) => ({ label: category.name, to: `/koleksiyon/${category.slug}` })),
+        links: categories.map(categoryLink),
       },
     ],
-    tiles: products.slice(0, 4).map((product) => ({ label: product.name, to: `/urun/${product.slug}`, image: product.images[0] })),
+    // İlk kutu sezonun kategorisi (Yılbaşı Süsleri), kalanlar öne çıkan ürünler.
+    tiles: [
+      ...(seasonalCategory ? [categoryTile(seasonalCategory)] : []),
+      ...products.map((product) => ({ label: product.name, to: `/urun/${product.slug}`, image: product.images[0] })),
+    ].slice(0, 4),
   },
   {
     id: 'mucevher',
@@ -29,7 +36,7 @@ export const navigation = [
         title: 'Kategoriler',
         links: [
           { label: 'Tüm mücevherler', to: '/koleksiyon' },
-          ...categories.map((category) => ({ label: category.name, to: `/koleksiyon/${category.slug}` })),
+          ...jewelryCategories.map(categoryLink),
         ],
       },
       {
@@ -37,9 +44,9 @@ export const navigation = [
         links: materials.map((material) => ({ label: material, to: `/koleksiyon?malzeme=${encodeURIComponent(material)}` })),
       },
     ],
-    tiles: categories.map((category) => ({ label: category.name, to: `/koleksiyon/${category.slug}`, image: category.image })),
+    tiles: jewelryCategories.map(categoryTile),
   },
-  ...categories.map((category) => ({ id: category.slug, label: category.name, to: `/koleksiyon/${category.slug}` })),
+  ...jewelryCategories.map((category) => ({ id: category.slug, ...categoryLink(category) })),
 ]
 
 export const featureLink = { label: 'Aurelia Dünyası', to: '/#hikaye' }

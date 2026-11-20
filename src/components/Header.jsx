@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router'
 import { featureLink, navigation } from '../data/navigation'
 import { useStore } from '../store/store-context'
+import FadeImage from './FadeImage'
 import Icon from './Icon'
 
 // overlay: ana sayfada menü videonun üstünde şeffaf durur; fare gelince ya da panel açılınca beyaza döner.
@@ -19,6 +20,27 @@ export default function Header({ overlay = false }) {
 
   const panel = navigation.find((item) => item.id === panelId && item.columns)
   const anythingOpen = Boolean(openMenu || mobileOpen || searchOpen)
+
+  // Kayan alt çubuk: fare hangi başlıktaysa oraya kayar; fare yoksa açık panelin ya da bulunulan kategorinin altında durur.
+  const { pathname } = useLocation()
+  const navListRef = useRef(null)
+  const [hoverId, setHoverId] = useState(null)
+  const [bar, setBar] = useState({ left: 0, width: 0, visible: false, slide: false })
+  const routeId = navigation.find((item) => item.to && pathname.startsWith(item.to))?.id
+  const barTarget = hoverId ?? openMenu ?? routeId ?? null
+
+  useLayoutEffect(() => {
+    const place = () => {
+      const el = barTarget && navListRef.current?.querySelector(`[data-nav-id="${barTarget}"]`)
+      // Çubuk görünmüyorken yeni yerine kaymadan yerleşir; görünürken başlıklar arasında kayar.
+      setBar((prev) => (el ? { left: el.offsetLeft, width: el.offsetWidth, visible: true, slide: prev.visible } : { ...prev, visible: false }))
+    }
+    place()
+    // Menünün genişliği değişirse (pencere boyutu, kaydırma çubuğunun belirmesi) çubuğu yeniden konumla.
+    const observer = new ResizeObserver(place)
+    if (navListRef.current) observer.observe(navListRef.current)
+    return () => observer.disconnect()
+  }, [barTarget])
 
   const clearHoverTimer = () => clearTimeout(hoverTimer.current)
   useEffect(() => () => clearTimeout(hoverTimer.current), [])
@@ -91,10 +113,10 @@ export default function Header({ overlay = false }) {
         <div className="header-top">
           <div className="header-left">
             <button className="icon-button menu-button" onClick={() => { setSearchOpen(false); setMobileOpen(!mobileOpen) }} aria-label={mobileOpen ? 'Menüyü kapat' : 'Menüyü aç'} aria-expanded={mobileOpen}>
-              <Icon name={mobileOpen ? 'close' : 'menu'} />
+              <Icon name={mobileOpen ? 'close' : 'menu'} size={24} />
             </button>
             <button className="search-toggle" onClick={toggleSearch} aria-expanded={searchOpen} aria-label={searchOpen ? 'Aramayı kapat' : 'Ürün ara'}>
-              <Icon name={searchOpen ? 'close' : 'search'} />
+              <Icon name={searchOpen ? 'close' : 'search'} size={24} />
               <span aria-hidden="true">{searchOpen ? 'Kapat' : 'Ara'}</span>
             </button>
           </div>
@@ -106,25 +128,26 @@ export default function Header({ overlay = false }) {
 
           <div className="header-right">
             <Link className="icon-button" to="/favoriler" onClick={closeAll} aria-label={`Favoriler, ${favorites.length} ürün`}>
-              <Icon name="heart" />
+              <Icon name="heart" size={24} />
               {favorites.length > 0 && <span className="count-badge">{favorites.length}</span>}
             </Link>
             <Link className="icon-button" to="/sepet" onClick={closeAll} aria-label={`Sepet, ${cartCount} ürün`}>
-              <Icon name="bag" />
+              <Icon name="bag" size={24} />
               {cartCount > 0 && <span className="count-badge">{cartCount}</span>}
             </Link>
           </div>
         </div>
 
         <nav className="main-nav" aria-label="Ana menü">
-          <ul>
+          <ul ref={navListRef} onMouseLeave={() => setHoverId(null)}>
             {navigation.map((item) => (
               <li key={item.id}>
                 {item.columns ? (
                   <button
                     className="nav-item"
+                    data-nav-id={item.id}
                     onClick={() => showMenu(item.id)}
-                    onMouseEnter={() => hoverMenu(item.id)}
+                    onMouseEnter={() => { setHoverId(item.id); hoverMenu(item.id) }}
                     onMouseLeave={() => !openMenu && clearHoverTimer()}
                     aria-expanded={openMenu === item.id}
                     aria-controls="mega-menu"
@@ -132,17 +155,25 @@ export default function Header({ overlay = false }) {
                     {item.label}
                   </button>
                 ) : (
-                  <NavLink className="nav-item" to={item.to} onClick={closeAll} onMouseEnter={hideMenu}>{item.label}</NavLink>
+                  <NavLink className="nav-item" data-nav-id={item.id} to={item.to} onClick={closeAll} onMouseEnter={() => { setHoverId(item.id); hideMenu() }}>{item.label}</NavLink>
                 )}
               </li>
             ))}
-            <li className="nav-feature"><Link to={featureLink.to} onClick={closeAll} onMouseEnter={hideMenu}>{featureLink.label}</Link></li>
+            <li className="nav-feature">
+              <Link className="nav-item nav-feature-link" data-nav-id="feature" to={featureLink.to} onClick={closeAll} onMouseEnter={() => { setHoverId('feature'); hideMenu() }}>{featureLink.label}</Link>
+            </li>
+            <li
+              role="presentation"
+              aria-hidden="true"
+              className={`nav-bar${bar.visible ? ' is-visible' : ''}${bar.slide ? ' is-sliding' : ''}`}
+              style={{ width: bar.width, transform: `translateX(${bar.left}px)` }}
+            />
           </ul>
         </nav>
 
         {panel && (
           <div className={openMenu ? 'mega-menu is-visible' : 'mega-menu'} id="mega-menu" aria-hidden={!openMenu}>
-            <div className="mega-inner" key={panel.id}>
+            <div className="mega-inner">
               <div className="mega-columns">
                 {panel.columns.map((column) => (
                   <div key={column.title}>
@@ -158,7 +189,7 @@ export default function Header({ overlay = false }) {
               <div className="mega-tiles">
                 {panel.tiles.map((tile) => (
                   <Link className="mega-tile" key={tile.label} to={tile.to} onClick={closeAll}>
-                    <img src={tile.image} alt="" loading="lazy" />
+                    <FadeImage src={tile.image} alt="" loading="lazy" />
                     <span>{tile.label}</span>
                   </Link>
                 ))}

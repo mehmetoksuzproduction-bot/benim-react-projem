@@ -3,7 +3,18 @@ export const categories = [
   { slug: 'kolyeler', name: 'Kolyeler', image: '/jewelry/necklace.jpg' },
   { slug: 'kupeler', name: 'Küpeler', image: '/jewelry/earrings.jpg' },
   { slug: 'bileklikler', name: 'Bileklikler', image: '/jewelry/bracelet.jpg' },
+  // seasonal: mücevher değil; Mücevher menüsünde ve üst menüde görünmez, Hediyeler panelinde yer alır.
+  {
+    slug: 'yilbasi-susleri',
+    name: 'Yılbaşı Süsleri',
+    image: '/jewelry/snow-globe.jpg',
+    seasonal: true,
+    emptyMessage: 'Yılbaşı seçkimiz çok yakında burada.',
+  },
 ]
+
+export const jewelryCategories = categories.filter((category) => !category.seasonal)
+export const seasonalCategory = categories.find((category) => category.seasonal)
 
 export const materials = ['14K Sarı Altın', '14K Beyaz Altın', '925 Ayar Gümüş']
 
