@@ -734,8 +734,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .collection-card:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 6px); }
   .collection-card h3 { margin-top: 14px; font-size: 18px; }
   .product-grid { gap: 12px; }
-  /* Telefonda giriş videosu kadının yüzüne doğru kaydırılır (yüz karenin sol tarafında). */
-  .hero-video, .hero-fallback { object-position: 26% center; }
   /* Telefonda kartlar alt alta, tam genişlik (yan yana çok küçük kalırdı). */
   .promo-grid { grid-template-columns: 1fr; }
   .promo-card { height: auto; aspect-ratio: 4 / 5; }
